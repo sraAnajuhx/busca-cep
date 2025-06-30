@@ -20,15 +20,20 @@ export default function App() {
   async function buscaCep(cep) {
     const cepLimpo = cep.replace(/\D/g, ""); // REGEX
     if (cepLimpo === "") {
-      alert("Coloque o cep");
+      alert("Coloque o cep VAGABUNDO");
       return;
     }
 
-    if (cepLimpo.length !==8){ //!== (Diferente)
-      alert ("Cep Errado, Digite 8 números.");
+    if (cepLimpo.length !== 8) {
+      //!== (Diferente)
+      alert("Cep Errado, Digite 8 números ANTA.");
       return;
     }
-
+    try {
+      const resposta = await fetch(
+        `https://viacep.com.br/ws/${cepLimpo}/json/`
+      );
+    } catch (error) {}
   }
 
   return (
