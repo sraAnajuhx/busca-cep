@@ -12,9 +12,24 @@ export default function App() {
   const [Logadouro, setLougadouro] = useState("");
   const [bairro, setBairro] = useState("");
   const [Cidade, setCidade] = useState("");
-  const [cep, setCep] = useState("");
+  const [cep, setcep] = useState("");
   const [IBGE, setIBGE] = useState("");
   const [Regiao, setRegiao] = useState("");
+  const [informacoes, setinformacoes] = useState(false);
+
+  async function buscaCep(cep) {
+    const cepLimpo = cep.replace(/\D/g, ""); // REGEX
+    if (cepLimpo === "") {
+      alert("Coloque o cep");
+      return;
+    }
+
+    if (cepLimpo.length !==8){ //!== (Diferente)
+      alert ("Cep Errado, Digite 8 números.");
+      return;
+    }
+
+  }
 
   return (
     <View style={styles.container}>
@@ -35,40 +50,42 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.endereco}>
-          <Text style={styles.tituloCep}>Endereco Econtrado</Text>
-          <View style={styles.informacoes}>
-            <View>
-              <Text style={styles.tituloInfo}>Cep</Text>
-              <Text style={styles.enderecoInfo}>Cep</Text>
-            </View>
-
-            <View>
-              <Text style={styles.tituloInfo}>Logadouro</Text>
-              <Text style={styles.enderecoInfo}>Logadouro</Text>
+        {informacoes && (
+          <View style={styles.endereco}>
+            <Text style={styles.titulocep}>Endereco Econtrado</Text>
+            <View style={styles.informacoes}>
+              <View>
+                <Text style={styles.tituloInfo}>cep</Text>
+                <Text style={styles.enderecoInfo}>cep</Text>
+              </View>
 
               <View>
-                <Text style={styles.tituloInfo}>Bairro</Text>
-                <Text style={styles.enderecoInfo}>Bairro</Text>
+                <Text style={styles.tituloInfo}>Logadouro</Text>
+                <Text style={styles.enderecoInfo}>Logadouro</Text>
 
                 <View>
-                  <Text style={styles.tituloInfo}>Cidade</Text>
-                  <Text style={styles.enderecoInfo}>Cidade</Text>
-                </View>
-
-                <View>
-                  <Text style={styles.tituloInfo}>IBGE</Text>
-                  <Text style={styles.enderecoInfo}>IBGE</Text>
+                  <Text style={styles.tituloInfo}>Bairro</Text>
+                  <Text style={styles.enderecoInfo}>Bairro</Text>
 
                   <View>
-                    <Text style={styles.tituloInfo}>Regiao</Text>
-                    <Text style={styles.enderecoInfo}>Regiao</Text>
+                    <Text style={styles.tituloInfo}>Cidade</Text>
+                    <Text style={styles.enderecoInfo}>Cidade</Text>
+                  </View>
+
+                  <View>
+                    <Text style={styles.tituloInfo}>IBGE</Text>
+                    <Text style={styles.enderecoInfo}>IBGE</Text>
+
+                    <View>
+                      <Text style={styles.tituloInfo}>Regiao</Text>
+                      <Text style={styles.enderecoInfo}>Regiao</Text>
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
+        )}
       </View>
     </View>
   );
