@@ -33,7 +33,22 @@ export default function App() {
       const resposta = await fetch(
         `https://viacep.com.br/ws/${cepLimpo}/json/`
       );
-    } catch (error) {}
+      const json = await resposta.json();
+
+      if (json.erro) {
+        alert("CEP NÂO EXISTE, MALUCO(A)");
+        throw new Error("CEP Não existe PRESTA A ATENÇAO");
+      }
+      setBairro(json.bairro);
+      setLougadouro(json.logadouro);
+      setcep(json.cep);
+      setCidade(json.localidade);
+      setRegiao(json.regiao);
+      setIBGE(json.IBGE);
+      setinformacoes(true);
+    } catch (error) {
+      console.error("Erro ao consultar API:" + error);
+    }
   }
 
   return (
@@ -43,14 +58,26 @@ export default function App() {
           <Entypo name="location-pin" size={32} color="#037F8C" />
           <Text style={styles.titulo}>Busca CEP</Text>
         </View>
-        <Text style={styles.subtitulo}>
-          Digite o CEP para encontrar o Endereço
-        </Text>
+
+        <View>
+          <Text style={styles.subtitulo}>
+            Digite o CEP para encontrar o Endereço
+          </Text>
+          <Text style={styles.criador}>Feito por Ana Julia oliveira dos santos</Text>
+        </View>
 
         <Text style={styles.label}>CEP</Text>
         <View style={styles.formulario}>
-          <TextInput style={styles.campo} placeholder="00000-000" />
-          <TouchableOpacity style={styles.botao}>
+          <TextInput
+            value={campo}
+            onChangeText={(texto) => setCampo(texto)}
+            style={styles.campo}
+            placeholder="00000-000"
+          />
+          <TouchableOpacity
+            onPress={() => buscaCep(campo)}
+            style={styles.botao}
+          >
             <Entypo name="magnifying-glass" size={24} color={"#fff"} />
           </TouchableOpacity>
         </View>
@@ -61,29 +88,29 @@ export default function App() {
             <View style={styles.informacoes}>
               <View>
                 <Text style={styles.tituloInfo}>cep</Text>
-                <Text style={styles.enderecoInfo}>cep</Text>
+                <Text style={styles.enderecoInfo}>{cep}</Text>
               </View>
 
               <View>
                 <Text style={styles.tituloInfo}>Logadouro</Text>
-                <Text style={styles.enderecoInfo}>Logadouro</Text>
+                <Text style={styles.enderecoInfo}>{Logadouro}</Text>
 
                 <View>
                   <Text style={styles.tituloInfo}>Bairro</Text>
-                  <Text style={styles.enderecoInfo}>Bairro</Text>
+                  <Text style={styles.enderecoInfo}>{bairro}</Text>
 
                   <View>
                     <Text style={styles.tituloInfo}>Cidade</Text>
-                    <Text style={styles.enderecoInfo}>Cidade</Text>
+                    <Text style={styles.enderecoInfo}>{Cidade}</Text>
                   </View>
 
                   <View>
                     <Text style={styles.tituloInfo}>IBGE</Text>
-                    <Text style={styles.enderecoInfo}>IBGE</Text>
+                    <Text style={styles.enderecoInfo}>{IBGE}</Text>
 
                     <View>
                       <Text style={styles.tituloInfo}>Regiao</Text>
-                      <Text style={styles.enderecoInfo}>Regiao</Text>
+                      <Text style={styles.enderecoInfo}>{Regiao}</Text>
                     </View>
                   </View>
                 </View>
@@ -172,4 +199,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
   },
+criador:{
+  color:"#0F29EB",
+  textAlign: "center",
+  fontWeight:"bold"
+},
+
+
+
+
 });
